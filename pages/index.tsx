@@ -1,8 +1,16 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
-import CartItem from '../components/CartItem'
+import { items } from '../Data'
+import { CartItemType } from '../components/@types'
+import Item from '../components/Item'
 
 const Home: NextPage = () => {
+
+  const getTotalItems = () => null;
+  const handleAddToCart = (clickedItem:CartItemType) => null;
+  const handleRemoveFromCart = () => null;
+
+
   return (
     <div className="flex min-h-screen flex-col items-center justify-center py-2">
       <Head>
@@ -10,7 +18,14 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
-        <CartItem />
+      {items.map((item:CartItemType) => (
+        <Item 
+        item={item}
+        handleAddToCart={handleAddToCart}
+         key={item.id}             
+        />
+      ))
+      }
       </main>
         
     </div>
