@@ -9,7 +9,7 @@ type Props = {
 const Item: React.FC<Props> = ({item, handleAddToCart}) => {
 
   return (
-    <div className="w-full">
+    <div className="w-full flex flex-col justify-center ">
       <div className="py-2">
         <Image 
         src={item.imageUrl} 
@@ -22,7 +22,7 @@ const Item: React.FC<Props> = ({item, handleAddToCart}) => {
           <h3>{item.price}</h3>
         </div>
       </div>
-      <button onClick={() => handleAddToCart(item)}>Add to Cart</button>
+      <button className='p-2 text-lg bg-gray-500 shadow-lg shadow-gray-400 rounded-xl cursor-pointer hover:scale-110 ease-in duration-300' onClick={() => handleAddToCart(item)}>Add to Cart</button>
     </div>
   )
 }

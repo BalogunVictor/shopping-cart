@@ -31,8 +31,29 @@ const Home: NextPage = () => {
       return [...prev, clickedItem]
     })
   };
-  const handleRemoveFromCart = () => null;
 
+   const handleRemoveFromCart = (id:number) => {
+    setCartItems(prev => (prev.reduce ((ack, item) => {
+      if(item.id === id) {
+        if (item.amount === 1) return ack;
+        return [...ack, {...item, amount: item.amount -1}]
+      } else {
+        return[...ack, item]
+      }
+    },[] as CartItemType[])))
+   }
+   
+  //  const remove = (id:number) => {
+  //   setCartItems(prev => (prev.reduce((ack, item) => {(item.id === id) 
+  //     return ack;
+  //     },[] as CartItemType[]
+  //   )))
+  //   }
+
+
+ const remove = (id:number) => {
+    setCartItems((prev) => prev.filter((item) => item.id === id))
+  } 
 
   return ( 
     <div className='w-[100%]'>
@@ -49,16 +70,17 @@ const Home: NextPage = () => {
                   cartItems={cartItems}
                   addToCart={handleAddToCart}
                   removeFromCart={handleRemoveFromCart}
+                  remove={ remove}
                 />
               </div>
         </div>
     
-        <div className='p-4'>
-          <BsCart3 size={40} onClick={handleToggle} />
-          <p>{getTotalItems(cartItems)}</p>
+        <div className='p-4 bg-white h-[70px] w-full fixed top-0 flex justify-center'>
+          <BsCart3 className='relative' size={40} onClick={handleToggle} />
+          <p className='absolute top-0 h-[15x] w-[15px] ml-5 text-sm bg-red-400 flex rounded-full text-white justify-center items-center'>{getTotalItems(cartItems)}</p>
         </div>
         <div>
-          <div className='grid grid-cols-2 gap-4 p-3'>
+          <div className='grid grid-cols-2 gap-4 mt-20 px-3'>
             {items.map((item:CartItemType) => (
               <Item 
               item={item}
