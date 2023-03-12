@@ -10,7 +10,7 @@ const Item: React.FC<Props> = ({item, handleAddToCart}) => {
 
   return (
     <div className="w-full">
-      <div className="flex h-[150px] items-center justify-between gap-3">
+      <div className="py-2">
         <Image 
         src={item.imageUrl} 
         alt={item.name}
