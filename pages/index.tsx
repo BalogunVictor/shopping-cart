@@ -6,54 +6,66 @@ import Item from '../components/Item'
 import { useState } from 'react'
 import {BsCart3} from 'react-icons/bs'
 import Cart from '../components/Cart'
+import { useQuery } from 'react-query';
+// Components
+import Drawer from '@mui/material/Drawer'
+import { LinearProgress } from '@mui/material'
+import Grid from '@mui/material'
 
 const Home: NextPage = () => {
+  
+  const getProducts = async (): Promise<CartItemType[]> => 
+    await (await fetch ('https://fakestoreapi.com/products')).json();
 
-  const [open,setOpen] = useState(false);
-  const [cartItems,setCartItems] = useState([] as CartItemType[])
+  const {data, isLoading, error} = useQuery<CartItemType[]>('products', getProducts); 
 
-  const handleToggle = () => {
-    setOpen(prevs => !prevs)
-  }
+  console.log(data);
+  
+//   const [open,setOpen] = useState(false);
+//   const [cartItems,setCartItems] = useState([] as CartItemType[])
 
-  const getTotalItems = (Items: CartItemType[]) => 
-  Items.reduce((ack:number, item) => ack + item.amount, 0)
-  ;
-  const handleAddToCart = (clickedItem:CartItemType) => {
-    setCartItems(prev => {
-      const isItemInCart = prev.find(item => item.id === clickedItem.id)
+//   const handleToggle = () => {
+//     setOpen(prevs => !prevs)
+//   }
 
-      if (isItemInCart) {
-        return prev.map(item => 
-          item.id === clickedItem.id ? {...item, amount: item.amount + 1}
-          : item)
-      }
-      return [...prev, clickedItem]
-    })
-  };
+//   const getTotalItems = (Items: CartItemType[]) => 
+//   Items.reduce((ack:number, item) => ack + item.amount, 0)
+//   ;
+//   const handleAddToCart = (clickedItem:CartItemType) => {
+//     setCartItems(prev => {
+//       const isItemInCart = prev.find(item => item.id === clickedItem.id)
 
-   const handleRemoveFromCart = (id:number) => {
-    setCartItems(prev => (prev.reduce ((ack, item) => {
-      if(item.id === id) {
-        if (item.amount === 1) return ack;
-        return [...ack, {...item, amount: item.amount -1}]
-      } else {
-        return[...ack, item]
-      }
-    },[] as CartItemType[])))
-   }
+//       if (isItemInCart) {
+//         return prev.map(item => 
+//           item.id === clickedItem.id ? {...item, amount: item.amount + 1}
+//           : item)
+//       }
+//       return [...prev, clickedItem]
+//     })
+//   };
+
+//    const handleRemoveFromCart = (id:number) => {
+//     setCartItems(prev => (prev.reduce ((ack, item) => {
+//       if(item.id === id) {
+//         if (item.amount === 1) return ack;
+//         return [...ack, {...item, amount: item.amount -1}]
+//       } else {
+//         return[...ack, item]
+//       }
+//     },[] as CartItemType[])))
+//    }
    
-  //  const remove = (id:number) => {
-  //   setCartItems(prev => (prev.reduce((ack, item) => {(item.id === id) 
-  //     return ack;
-  //     },[] as CartItemType[]
-  //   )))
-  //   }
+//   //  const remove = (id:number) => {
+//   //   setCartItems(prev => (prev.reduce((ack, item) => {(item.id === id) 
+//   //     return ack;
+//   //     },[] as CartItemType[]
+//   //   )))
+//   //   }
 
 
- const remove = (id:number) => {
-    setCartItems((prev) => prev.filter((item) => item.id === id))
-  } 
+//  const remove = (id:number) => {
+//     setCartItems((prev) => prev.filter((item) => item.id === id))
+//   } 
 
   return ( 
     <div className='w-[100%]'>
@@ -62,7 +74,8 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className='flex relative flex-col justify-center items-center'>
-        <div className= { open ? 
+        start
+        {/* <div className= { open ? 
             'w-[300px] h-full top-20 right-0 absolute translate-x-0 transition-all duration-300' 
             : 'w-[300px] h-full translate-x-[100%] transition-all duration-500'}>
               <div className={open ? 'w-[300px] h-full transition-all duration-500' : 'hidden transition-all duration-400 '}>
@@ -90,7 +103,7 @@ const Home: NextPage = () => {
             ))
             }
           </div>
-        </div>
+        </div> */}
       </main> 
     </div>
   )
