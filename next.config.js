@@ -3,6 +3,6 @@ module.exports = {
   reactStrictMode: true,
   
   images: {
-    domains: ["i.ibb.co"],
+    domains: ["fakestoreapi.com"],
   },
 }

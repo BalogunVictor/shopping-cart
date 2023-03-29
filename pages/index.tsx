@@ -10,7 +10,7 @@ import { useQuery } from 'react-query';
 // Components
 import Drawer from '@mui/material/Drawer'
 import { LinearProgress } from '@mui/material'
-import Grid from '@mui/material'
+import {Grid} from '@mui/material'
 
 const Home: NextPage = () => {
   
@@ -22,7 +22,7 @@ const Home: NextPage = () => {
   console.log(data);
   
 //   const [open,setOpen] = useState(false);
-//   const [cartItems,setCartItems] = useState([] as CartItemType[])
+  const [cartItems,setCartItems] = useState([] as CartItemType[])
 
 //   const handleToggle = () => {
 //     setOpen(prevs => !prevs)
@@ -31,18 +31,18 @@ const Home: NextPage = () => {
 //   const getTotalItems = (Items: CartItemType[]) => 
 //   Items.reduce((ack:number, item) => ack + item.amount, 0)
 //   ;
-//   const handleAddToCart = (clickedItem:CartItemType) => {
-//     setCartItems(prev => {
-//       const isItemInCart = prev.find(item => item.id === clickedItem.id)
+  const handleAddToCart = (clickedItem:CartItemType) => {
+    setCartItems(prev => {
+      const isItemInCart = prev.find(item => item.id === clickedItem.id)
 
-//       if (isItemInCart) {
-//         return prev.map(item => 
-//           item.id === clickedItem.id ? {...item, amount: item.amount + 1}
-//           : item)
-//       }
-//       return [...prev, clickedItem]
-//     })
-//   };
+      if (isItemInCart) {
+        return prev.map(item => 
+          item.id === clickedItem.id ? {...item, amount: item.amount + 1}
+          : item)
+      }
+      return [...prev, clickedItem]
+    })
+  };
 
 //    const handleRemoveFromCart = (id:number) => {
 //     setCartItems(prev => (prev.reduce ((ack, item) => {
@@ -54,18 +54,9 @@ const Home: NextPage = () => {
 //       }
 //     },[] as CartItemType[])))
 //    }
-   
-//   //  const remove = (id:number) => {
-//   //   setCartItems(prev => (prev.reduce((ack, item) => {(item.id === id) 
-//   //     return ack;
-//   //     },[] as CartItemType[]
-//   //   )))
-//   //   }
 
-
-//  const remove = (id:number) => {
-//     setCartItems((prev) => prev.filter((item) => item.id === id))
-//   } 
+   if (isLoading) return <LinearProgress />
+   if (error) return <div>Something went wrong ...</div>
 
   return ( 
     <div className='w-[100%]'>
@@ -74,7 +65,16 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className='flex relative flex-col justify-center items-center'>
-        start
+        <div className='flex justify-between p-2 m-2 flex-col w-[100%] h-[100%] border-2 border-solid border-blue-300 rounded-2xl'>
+          <Grid container spacing={3}>
+            {data?.map(item => (
+              <Grid item key={item.id} xs={12} sm={4}>
+                <Item item={item} handleAddToCart={handleAddToCart} />
+              </Grid> 
+            ))
+            }
+          </Grid>
+        </div>
         {/* <div className= { open ? 
             'w-[300px] h-full top-20 right-0 absolute translate-x-0 transition-all duration-300' 
             : 'w-[300px] h-full translate-x-[100%] transition-all duration-500'}>
