@@ -9,8 +9,8 @@ type Props = {
 const Item: React.FC<Props> = ({item, handleAddToCart}) => {
 
   return (
-    <div className="flex justify-center p-2 flex-col w-[100%] h-[100%] border-2 border-blue-100 rounded-2xl items-center">
-      <div className="flex justify-between items-center p-2 flex-col py-2">
+    <div className="flex justify-between p-2 flex-col w-[100%] h-[100%] border-2 border-solid border-blue-100 rounded-2xl">
+      <div className="flex justify-between items-center flex-col py-2">
         <Image 
         src={item.image} 
         alt={item.title}
