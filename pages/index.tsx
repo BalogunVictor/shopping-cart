@@ -1,18 +1,17 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
-import IconButton  from '@mui/material/IconButton'
-import { Badge } from '@mui/material'
-import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart'
 import { CartItemType } from '../components/@types'
 import Item from '../components/Item'
 import { useState } from 'react'
-import {BsCart3} from 'react-icons/bs'
-import Cart from '../components/Cart'
 import { useQuery } from 'react-query';
 // Components
 import Drawer from '@mui/material/Drawer'
 import { LinearProgress } from '@mui/material'
 import {Grid} from '@mui/material'
+import IconButton  from '@mui/material/IconButton'
+import { Badge } from '@mui/material'
+import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart'
+import Cart from '../components/Cart'
 
 const Home: NextPage = () => {
   
@@ -26,9 +25,9 @@ const Home: NextPage = () => {
   const [cartOpen,setCartOpen] = useState(false);
   const [cartItems,setCartItems] = useState([] as CartItemType[])
 
-  const handleToggle = () => {
-    setCartOpen(prevs => !prevs)
-  }
+  // const handleToggle = () => {
+  //   setCartOpen(prevs => !prevs)
+  // }
 
   const getTotalItems = (Items: CartItemType[]) => 
   Items.reduce((ack:number, item) => ack + item.amount, 0)
@@ -39,10 +38,13 @@ const Home: NextPage = () => {
 
       if (isItemInCart) {
         return prev.map(item => 
-          item.id === clickedItem.id ? {...item, amount: item.amount + 1}
+          item.id === clickedItem.id ? 
+          {...item, amount: item.amount + 1}
           : item)
       }
-      return [...prev, clickedItem]
+
+      //first time the item is added
+      return [...prev, {...clickedItem, amount: 1} ]
     })
   };
 
@@ -67,20 +69,23 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
-            <IconButton onClick={handleToggle} className='fixed z-30 right-5 top-5'>
+            <Drawer 
+            anchor='right'
+            open={cartOpen}
+            onClose={() => setCartOpen(false)}>
+              <Cart 
+                cartItems={cartItems}
+                addToCart={handleAddToCart}
+                removeFromCart={handleRemoveFromCart}
+              />
+            </Drawer>
+            <IconButton
+             onClick={() => setCartOpen(true)} 
+             className='fixed z-30 right-5 top-5'>
               <Badge badgeContent={getTotalItems(cartItems)} color='error'>
                 <AddShoppingCartIcon />
               </Badge>
             </IconButton>
-
-            <Drawer 
-            anchor='right'
-            open={cartOpen}
-            onClick={handleToggle}>
-              Cart goes Here
-            </Drawer>
-
-
         <div className='flex justify-between p-2 flex-col w-[100%] h-[100%] border-2 border-solid border-blue-300 rounded-2xl'>
           <Grid container spacing={3}>
             {data?.map(item => (
